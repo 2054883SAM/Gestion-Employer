@@ -1,4 +1,34 @@
 .App {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+
+.information{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.information input{
+  width: 300px;
+  height: 50px;
+  font-size: 20px;
+  padding-left: 10px;
+  margin: 5px;
+}
+
+.information button{
+width: 318px;
+height: 50px;
+margin-top: 15px;
+}
+
+.information button:hover{
+cursor: pointer;
+}
+  
+  
 
