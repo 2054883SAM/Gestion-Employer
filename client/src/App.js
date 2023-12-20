@@ -1,5 +1,9 @@
 import "./App.css";
 import { useState } from "react";
+//Axios est une bibliothèque JavaScript populaire utilisée pour effectuer
+//des requêtes HTTP depuis un navigateur ou depuis Node.js.
+//Pour importer Axios il faut faire npm install axios du coté client
+import Axios from "axios";
 
 function App() {
   const [nom, setNom] = useState("");
@@ -12,6 +16,24 @@ function App() {
   const afficherInfo = () => {
     console.log("nom: "+ nom + " age: " + age + " pays: "+ pays  + " position: "+ position + " salaire: " + salaire)
   };*/
+
+  //Methode pour ajouter un employer a la base de donnée.
+  //Il faut ajouter la methode dans le onClick du boutton
+  const ajouterEmployer = () => {
+    console.log(nom)
+    //La methode Axios.post prend comme argument le route pour la creation
+    //Prend aussi comme argument le body, sois lorsqu'on fait par exemple : req.body.nom 
+    Axios.post("http://localhost:3001/create", {
+      nom: nom,
+      age: age,
+      pays: pays,
+      position: position,
+      salaire: salaire,
+      //permet de savoir si les donné on bien été envoyé
+    }).then(()=>{
+      console.log("confirmé")
+    });
+  };
 
   return (
     <div className="App">
@@ -51,7 +73,7 @@ function App() {
             setSalaire(event.target.value);
           }}
         />
-        <button>Ajouter l'employer</button>
+        <button onClick={ajouterEmployer}>Ajouter l'employer</button>
       </div>
     </div>
   );
