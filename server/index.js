@@ -5,10 +5,10 @@ const app = express();
 //Importation de MySQL
 const mysql = require("mysql");
 //Faire un npm install du coté serveur
-//Les navigateurs appliquent une politique de sécurité Same-Origin Policy (Politique de même origine) par défaut. 
-//Cela signifie qu'une page web ne peut pas directement effectuer de requêtes vers un autre domaine que celui dont elle provient. 
+//Les navigateurs appliquent une politique de sécurité Same-Origin Policy (Politique de même origine) par défaut.
+//Cela signifie qu'une page web ne peut pas directement effectuer de requêtes vers un autre domaine que celui dont elle provient.
 //CORS est une norme qui permet de lever cette restriction en permettant à un serveur de spécifier via des en-têtes HTTP quels domaines ou ressources externes sont autorisés à accéder à ses ressources.
-const cors = require('cors')
+const cors = require("cors");
 app.use(cors());
 
 //La ligne de code app.use(express.json()); est utilisée dans une application Node.js avec le framework Express. Cette ligne est une méthode middleware d'Express qui permet à votre application Express de traiter les données reçues en tant que JSON.
@@ -25,7 +25,7 @@ const db = mysql.createConnection({
 //req c'est pour prendre les informations du frontend
 //res c'est pour envoyer a la base de donné
 app.post("/create", (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   //Les données qu'on vas envoyer dans la base de donné
   const nom = req.body.nom;
   const age = req.body.age;
@@ -46,6 +46,18 @@ app.post("/create", (req, res) => {
       }
     }
   );
+});
+
+//On vas recevoir tout les employer grace a la requete SQL
+//Si il n'y a pas d'erreur, je vais afficher le resulat que j'ai get dans la console (sois les employer)
+app.get("/employer", (req, res) => {
+  db.query("SELECT * FROM employer", (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
 });
 
 //Commencer l'application

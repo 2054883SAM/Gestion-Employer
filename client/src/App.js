@@ -12,6 +12,8 @@ function App() {
   const [position, setPostion] = useState("");
   const [salaire, setSalaire] = useState(0);
 
+  const [listeEmployer, setListeEmployer] = useState([]);
+
   /*Confirmation que les infos font bien l'utilisation de USESTATE
   const afficherInfo = () => {
     console.log("nom: "+ nom + " age: " + age + " pays: "+ pays  + " position: "+ position + " salaire: " + salaire)
@@ -20,9 +22,9 @@ function App() {
   //Methode pour ajouter un employer a la base de donnée.
   //Il faut ajouter la methode dans le onClick du boutton
   const ajouterEmployer = () => {
-    console.log(nom)
+    console.log(nom);
     //La methode Axios.post prend comme argument le route pour la creation
-    //Prend aussi comme argument le body, sois lorsqu'on fait par exemple : req.body.nom 
+    //Prend aussi comme argument le body, sois lorsqu'on fait par exemple : req.body.nom
     Axios.post("http://localhost:3001/create", {
       nom: nom,
       age: age,
@@ -30,8 +32,21 @@ function App() {
       position: position,
       salaire: salaire,
       //permet de savoir si les donné on bien été envoyé
-    }).then(()=>{
-      console.log("confirmé")
+    }).then(() => {
+      setListeEmployer([...listeEmployer, {
+        nom: nom,
+        age: age,
+        pays: pays,
+        position: position,
+        salaire: salaire,
+      }]);
+    });
+  };
+
+  //Pour obtenir tout les employer
+  const getEmployer = () => {
+    Axios.get("http://localhost:3001/employer", {}).then((reponse) => {
+      setListeEmployer(reponse.data);
     });
   };
 
@@ -74,6 +89,21 @@ function App() {
           }}
         />
         <button onClick={ajouterEmployer}>Ajouter l'employer</button>
+      </div>
+      <div className="employer">
+        <button onClick={getEmployer}>Afficher les employer</button>
+
+        {listeEmployer.map((valeur, key) => {
+          return (
+            <div className="listeEmployer">
+              <h3>Nom: {valeur.nom}</h3>
+              <h3>Age: {valeur.age}</h3>
+              <h3>Pays: {valeur.pays}</h3>
+              <h3>Position: {valeur.position}</h3>
+              <h3>Salaire: {valeur.salaire}$</h3>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
